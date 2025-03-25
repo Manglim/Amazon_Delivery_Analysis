@@ -1,34 +1,50 @@
-# Delivery Time Prediction
+# Delivery Time Prediction with Random Forest
 
-This repository contains a Jupyter Notebook (`delivery_time_prediction.ipynb`) for predicting food delivery times using a dataset from the Amazon Business Research Analyst Hiring Challenge. The project is implemented in a single cell, covering data cleaning, feature engineering, modeling with a Random Forest regressor, and visualization of results to predict the `Time_taken(min)` variable.
+## Overview
+This project predicts food delivery times using a Random Forest Regressor on data from `updated.csv`. It cleans the dataset, engineers features like distance and pickup delay, evaluates the model, and visualizes key insights to understand delivery time drivers.
+
+## Functionality
+1. **Data Cleaning**:
+   - Fixes invalid times (e.g., "10:60" → "11:00"), replaces 0s with NaN, fills missing values with medians.
+   - Drops rows missing critical data.
+
+2. **Feature Engineering**:
+   - `Distance_km`: Haversine distance between restaurant and delivery locations.
+   - `Pickup_Delay`: Time between order and pickup (adjusted for midnight).
+   - `Hour_of_Day`: Extracted from order time.
+   - `Age_Rating_Interaction`: Delivery person age × ratings.
+
+3. **Modeling**:
+   - Random Forest Regressor (100 trees) predicts `Time_taken(min)`.
+   - 80/20 train-test split.
+
+4. **Evaluation**:
+   - RMSE and R² metrics.
+
+5. **Visualization**:
+   - Actual vs. predicted, feature importance, delivery time distribution, and relationships with distance, traffic, and weather.
+
+## Frameworks and Libraries
+- **Python**: Core.
+- **Pandas**: Data handling (`pd`).
+- **NumPy**: Numerical ops (`np`).
+- **Math**: Haversine formula.
+- **Scikit-learn**: Modeling (`RandomForestRegressor`, etc.).
+- **Matplotlib**: Plots (`plt`).
+- **Seaborn**: Visualizations (`sns`).
 
 ## Dataset
-- **File**: `updated.csv` (not included in the repository due to size; replace with your own data)
-- **Description**: The dataset includes delivery details such as:
-  - Delivery person age and ratings
-  - Restaurant and delivery location coordinates
-  - Order and pickup times
-  - Weather conditions, road traffic density, vehicle condition, etc.
-  - Target variable: `Time_taken(min)` (delivery time in minutes)
+- Source: `updated.csv`.
+- Rows: 2,266 post-cleaning.
+- Key Columns: `Delivery_person_Age`, `Restaurant_latitude`, `Time_taken(min)`, etc.
+- Features: 14, Target: `Time_taken(min)`.
 
-## Project Structure
-- **`delivery_time_prediction.ipynb`**: Jupyter Notebook with a single-cell pipeline:
-  1. **Data Cleaning**: Handles missing values, fixes invalid times, and corrects coordinates.
-  2. **Feature Engineering**: Calculates distance, pickup delay, hour of day, and interaction features.
-  3. **Modeling**: Trains a Random Forest Regressor to predict delivery time.
-  4. **Evaluation**: Computes RMSE and R² metrics.
-  5. **Visualization**: Generates six graphs (see below).
+## Key Features
+- **Data Prep**: Robust handling of messy data.
+- **Geo Features**: Accurate distance calculation.
+- **Temporal Context**: Pickup delay and hour of day.
+- **Insightful**: Visuals and feature importance.
 
-## Graphs
-The notebook produces the following visualizations in a single run:
-1. **Actual vs Predicted Delivery Time**: Scatter plot comparing model predictions to actual values.
-2. **Feature Importance**: Bar plot showing the most influential features in the model.
-3. **Distribution of Delivery Time**: Histogram and KDE of the target variable.
-4. **Delivery Time vs Distance**: Scatter plot of time taken vs calculated distance.
-5. **Delivery Time by Road Traffic Density**: Box plot showing time distribution across traffic levels.
-6. **Delivery Time by Weather Conditions**: Box plot of time across weather conditions.
-
-## Requirements
-To run the notebook, install the following Python libraries:
+## Installation
 ```bash
 pip install pandas numpy scikit-learn matplotlib seaborn
